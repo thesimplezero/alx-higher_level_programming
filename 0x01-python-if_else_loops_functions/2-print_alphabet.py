@@ -1,5 +1,4 @@
 #!/usr/bin/python3
 
-alph = [chr(ascii_value) for ascii_value in range(ord('a'), ord('z') + 1)]
-
-print("".join(alph), end="")
+# Single print function with one loop in a generator expression
+print("".join(chr(i) for i in range(ord('a'), ord('z')+1)), end="")
