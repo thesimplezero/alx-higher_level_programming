@@ -1,7 +1,7 @@
-from calculator_1 import add, sub, mul, div
+#!/usr/bin/python3
+if __name__ == "__main__":
 
-
-def main():
+    from calculator_1 import add, sub, mul, div
     a = 10
     b = 5
 
@@ -16,7 +16,3 @@ def main():
 
     result_div = div(a, b)
     print(f"{a} / {b} = {result_div}")
-
-
-if __name__ == "__main__":
-    main()
