@@ -1,20 +1,16 @@
 #!/usr/bin/python3
-import sys
-
-def main():
-    """Print the number of and list of arguments."""
-    arg_count = len(sys.argv) - 1
-
-    # Using f-string for more readability
-    if arg_count == 0:
-        print("0 arguments.")
-    elif arg_count == 1:
-        print("1 argument:")
-    else:
-        print(f"{arg_count} arguments:")
-
-    for index, argument in enumerate(sys.argv, start=1):
-        print(f"{index}: {argument}")
 
 if __name__ == "__main__":
-    main()
+    """Print the number of and list of arguments."""
+    import sys
+
+    count = len(sys.argv) - 1
+    args_message = {
+        0: "0 arguments.",
+        1: "1 argument:"
+    }
+
+    print(args_message.get(count, f"{count} arguments:"))
+
+    for i in range(count):
+        print(f"{i + 1}: {sys.argv[i + 1]}")
