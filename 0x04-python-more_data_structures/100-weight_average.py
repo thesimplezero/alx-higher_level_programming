@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 def weight_average(my_list=[]):
-    """Returns the weighted average of all integer tuples (<score>, <weight>)."""
+    """Return the weighted average of all integer tuples (<score>, <weight>)"""
     if not my_list:
         return 0
 
