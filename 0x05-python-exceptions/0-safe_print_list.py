@@ -1,20 +1,12 @@
-def safe_print_list(my_list=None, x=0):
-    """Prints x elements from my_list safely"""
-    if my_list is None:
-        my_list = []
-
+#!/usr/bin/python3
+def safe_print_list(my_list=[], x=0):
     counter = 0
     for i in range(x):
         try:
-            print(my_list[i], end="")
-            counter += 1
+            print("{}".format(my_list[i]), end="")
         except IndexError:
             break
+        else:
+            counter += 1
     print()
     return counter
-
-
-if __name__ == "__main__":
-    my_list = [1, 2, 3, 4, 5]
-    print(safe_print_list(my_list, 3))
-    print(safe_print_list(my_list, 10))
