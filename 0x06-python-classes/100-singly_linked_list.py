@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """
-This module defines Node and SinglyLinkedList classes, creating a singly-linked 
-list data structure. Each node in the list contains integer data and reference 
-to the next node.
+This module defines Node and SinglyLinkedList classes, creating a
+singly-linked list data structure. Each node contains integer data and
+reference to the next node.
 """
 
 
 class Node:
     """
-    A node in a singly-linked list. Contains integer data and reference to the 
+    A node in a singly-linked list. Contains integer data and reference to the
     next node.
     """
 
@@ -44,9 +44,8 @@ class Node:
 
 class SinglyLinkedList:
     """
-    A singly-linked list, which is a collection of Nodes that are connected in 
-    a sequential manner. The list has a head node, and each node points to the 
-    next node in the list. 
+    A singly-linked list, which is a collection of Nodes connected sequentially
+    The list has a head node, and each node points to the next node in the list
     """
 
     def __init__(self):
@@ -61,7 +60,8 @@ class SinglyLinkedList:
             self.__head = new_node
         else:
             current = self.__head
-            while current.next_node is not None and current.next_node.data < new_node.data:
+            while current.next_node is not None and \
+                    current.next_node.data < new_node.data:
                 current = current.next_node
             new_node.next_node = current.next_node
             current.next_node = new_node
