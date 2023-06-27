@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """
-This module defines a class Square representing a geometric square with size 
+This module defines a class Square representing a geometric square with size
 and position attributes.
 """
 
 
 class Square:
     """
-    Represent a geometric square. Allows setting of size and position with 
+    Represent a geometric square. Allows setting of size and position with
     validations. Provides methods to calculate the area and print the square.
     """
 
