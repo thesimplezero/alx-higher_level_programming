@@ -1,0 +1,39 @@
+How to Use 5-text_indentation.py
+================================
+
+This module defines the ``text_indentation(text)`` function. It adds two new lines after any ``.``, ``?``, and ``:`` characters in the input text.
+
+Usage
+=====
+
+>>> from 5-text_indentation import text_indentation
+
+# Standard Usage
+>>> print(text_indentation("Hello?"))
+Hello?
+
+# Strips spaces at the start of lines
+>>> print(text_indentation("   Hi there."))
+Hi there.
+
+# Strips spaces at the end of lines
+>>> print(text_indentation("Hello.   "))
+Hello.
+
+# New lines only follow '.', '?' or ':'
+>>> print(text_indentation("No ending period, what bad grammar"))
+No ending period, what bad grammar
+
+# New lines within a string are preserved
+>>> print(text_indentation("A sneaky \n new line."))
+A sneaky 
+new line.
+
+Invalid Text
+============
+
+Input must be a string or a TypeError is raised.
+
+>>> print(text_indentation(7))
+Traceback (most recent call last):
+TypeError: text must be a string
