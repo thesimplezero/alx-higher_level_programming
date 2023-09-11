@@ -9,8 +9,11 @@ const num = parseInt(firstArg);
 
 // Define a recursive function to calculate the factorial
 function calculateFactorial(x) {
-  if (isNaN(x) || x === 0) {
-    // If x is NaN or 0, return 1
+  if (isNaN(x) || x < 0) {
+    // If x is NaN or negative, return 1
+    return 1;
+  } else if (x === 0) {
+    // If x is 0, factorial is 1
     return 1;
   } else {
     // Otherwise, calculate factorial recursively
@@ -18,11 +21,5 @@ function calculateFactorial(x) {
   }
 }
 
-// Check if the input is a valid number
-if (!isNaN(num)) {
-  // If it's a number, calculate and print the factorial
-  console.log(calculateFactorial(num));
-} else {
-  // If it's not a valid number, print 1
-  console.log('1');
-}
+// Calculate and print the factorial
+console.log(calculateFactorial(num));
