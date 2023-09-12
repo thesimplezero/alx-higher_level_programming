@@ -1,14 +1,9 @@
 #!/usr/bin/node
 
-class Rectangle {
+module.exports = class Rectangle {
     constructor(w, h) {
-      if (w <= 0 || h <= 0) {
-        return {}; // Return an empty object for invalid dimensions
-      }
-  
-      this.width = w;
-      this.height = h;
+      this.width = h > 0 && w > 0 ? w : undefined;
+      this.height = h > 0 && w > 0 ? h : undefined;
     }
-  }
+  };
   
-  module.exports = Rectangle;
