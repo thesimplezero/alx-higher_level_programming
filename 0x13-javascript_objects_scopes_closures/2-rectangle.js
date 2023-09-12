@@ -2,8 +2,12 @@
 
 module.exports = class Rectangle {
     constructor(w, h) {
-      this.width = h > 0 && w > 0 ? w : undefined;
-      this.height = h > 0 && w > 0 ? h : undefined;
+      if (w > 0 && h > 0) {
+        this.width = w;
+        this.height = h;
+      } else {
+        Object.create(null); // Create an empty object
+      }
     }
   };
   
