@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
 """
-Module that connects a Python script to a database using MySQLdb and SQLAlchemy
+Module that connects a Python script to a MySQL database using MySQLdb and SQLAlchemy
 """
 
 import MySQLdb
 from sys import argv
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -34,7 +34,7 @@ def connect_to_mysql(username, password, database):
     """
     try:
         my_db = MySQLdb.connect(
-            host='localhost', port=3306, user=username, password=password, db=database
+            host='localhost', port=3306, user=username, passwd=password, db=database
         )
         return my_db
     except MySQLdb.Error as e:
@@ -64,9 +64,11 @@ def main():
 
         try:
             # Fetch and print states starting with user input
-            states = session.query(State).filter(State.name.like(f'{search_state}%')).order_by(State.id).all()
-            for state in states:
-                print((state.id, state.name))
+            query = text(f"SELECT * FROM states WHERE name LIKE BINARY '{search_state}%' ORDER BY states.id ASC")
+            result = session.execute(query)
+
+            for row in result:
+                print((row['id'], row['name']))
 
         except Exception as e:
             print(f"Error executing query: {e}")
