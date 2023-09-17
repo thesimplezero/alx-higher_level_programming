@@ -1,11 +1,24 @@
 #!/usr/bin/python3
 
 """
-Script to query and display states from MySQL database
+Module to list all states from the hbtn_0e_0_usa database.
 """
 
+import sys
 import MySQLdb
-from sys import argv
+from sqlalchemy import create_engine, Column, Integer, String, select
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class State(Base):
+    """
+    State table ORM class.
+    """
+    __tablename__ = 'states'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128))
 
 def connect_to_mysql(username, password, database):
     """
@@ -21,7 +34,7 @@ def connect_to_mysql(username, password, database):
     """
     try:
         my_db = MySQLdb.connect(
-            host='localhost', port=3306, user=username, passwd=password, db=database
+            user=username, passwd=password, db=database
         )
         return my_db
     except MySQLdb.Error as e:
@@ -30,44 +43,42 @@ def connect_to_mysql(username, password, database):
 
 def main():
     """
-    Main function to connect to MySQL and fetch matching states.
+    Main function to list all states from MySQL database.
     """
     if __name__ == "__main__":
         # Command-line arguments
-        username = argv[1]
-        password = argv[2]
-        database = argv[3]
-        search_state = argv[4]
+        username = sys.argv[1]
+        password = sys.argv[2]
+        database = sys.argv[3]
+        search_state = sys.argv[4]
 
         # Connect to MySQL database
         my_db = connect_to_mysql(username, password, database)
         if not my_db:
             return
 
+        # Create SQLAlchemy engine and session
+        engine = create_engine(f'mysql+mysqldb://{username}:{password}@localhost/{database}')
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
         try:
-            # Create cursor obj to interact with database
-            my_cursor = my_db.cursor()
+            # Query and print states using SQLAlchemy
+            query = select([State]).where(State.name == search_state)
+            result = session.execute(query)
 
-            # Execute a SELECT query to fetch data
-            query = f"SELECT * FROM states WHERE name LIKE BINARY '{search_state}' ORDER BY states.id ASC"
-            my_cursor.execute(query)
-
-            # Fetch all the data returned by the query
-            my_data = my_cursor.fetchall()
-
-            # Iterate through the fetched data and print each row
-            for row in my_data:
+            for row in result:
                 print(row)
 
         except Exception as e:
             print(f"Error executing query: {e}")
 
         finally:
-            # Close all cursors
-            my_cursor.close()
+            # Close the SQLAlchemy session
+            session.close()
 
-            # Close all databases
-            my_db.close()
+        # Close the MySQLdb connection
+        my_db.close()
 
 if __name__ == "__main__":
     main()
