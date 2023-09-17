@@ -1,24 +1,11 @@
 #!/usr/bin/python3
 
 """
-Module that connects a Python script to a MySQL database using MySQLdb and SQLAlchemy
+Script to query and display states from MySQL database
 """
 
 import MySQLdb
 from sys import argv
-from sqlalchemy import create_engine, Column, Integer, String, text
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-
-class State(Base):
-    """
-    State table ORM class.
-    """
-    __tablename__ = 'states'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128))
 
 def connect_to_mysql(username, password, database):
     """
@@ -43,7 +30,7 @@ def connect_to_mysql(username, password, database):
 
 def main():
     """
-    Main function to connect to MySQL, fetch data, and print it.
+    Main function to connect to MySQL and fetch matching states.
     """
     if __name__ == "__main__":
         # Command-line arguments
@@ -57,28 +44,30 @@ def main():
         if not my_db:
             return
 
-        # Create SQLAlchemy engine and session
-        engine = create_engine(f'mysql+mysqldb://{username}:{password}@localhost/{database}')
-        Session = sessionmaker(bind=engine)
-        session = Session()
-
         try:
-            # Fetch and print states starting with user input
-            query = text(f"SELECT * FROM states WHERE name LIKE BINARY '{search_state}%' ORDER BY states.id ASC")
-            result = session.execute(query)
+            # Create cursor obj to interact with database
+            my_cursor = my_db.cursor()
 
-            for row in result:
-                print((row['id'], row['name']))
+            # Execute a SELECT query to fetch data
+            query = f"SELECT * FROM states WHERE name LIKE BINARY '{search_state}' ORDER BY states.id ASC"
+            my_cursor.execute(query)
+
+            # Fetch all the data returned by the query
+            my_data = my_cursor.fetchall()
+
+            # Iterate through the fetched data and print each row
+            for row in my_data:
+                print(row)
 
         except Exception as e:
             print(f"Error executing query: {e}")
 
         finally:
-            # Close the SQLAlchemy session
-            session.close()
+            # Close all cursors
+            my_cursor.close()
 
-        # Close the MySQLdb connection
-        my_db.close()
+            # Close all databases
+            my_db.close()
 
 if __name__ == "__main__":
     main()
